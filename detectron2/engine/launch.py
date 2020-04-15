@@ -33,9 +33,10 @@ def launch(main_func, num_gpus_per_machine, num_machines=1, machine_rank=0, dist
         args (tuple): arguments passed to main_func
     """
     world_size = num_machines * num_gpus_per_machine
-    logger = logging.getLogger(__name__)
-    logger.info("DEBUG world_size", world_size)
-    
+    #logger = logging.getLogger(__name__)
+    #logger.info("DEBUG world_size", world_size)
+    print("DEBUG world_size", world_size)    
+
     if world_size > 1:
         # https://github.com/pytorch/pytorch/pull/14391
         # TODO prctl in spawned processes
@@ -58,9 +59,9 @@ def launch(main_func, num_gpus_per_machine, num_machines=1, machine_rank=0, dist
 def _distributed_worker(
     local_rank, main_func, world_size, num_gpus_per_machine, machine_rank, dist_url, args
 ):
-    #print("DEBUG local_rank",local_rank)
-    logger = logging.getLogger(__name__)
-    logger.info("DEBUG local_rank",local_rank)
+    print("DEBUG local_rank",local_rank)
+    #logger = logging.getLogger(__name__)
+    #logger.info("DEBUG local_rank",local_rank)
     assert torch.cuda.is_available(), "cuda is not available. Please check your installation."
     global_rank = machine_rank * num_gpus_per_machine + local_rank
     try:
@@ -68,7 +69,7 @@ def _distributed_worker(
             backend="NCCL", init_method=dist_url, world_size=world_size, rank=global_rank
         )
     except Exception as e:
-        #logger = logging.getLogger(__name__)
+        logger = logging.getLogger(__name__)
         logger.error("Process group URL: {}".format(dist_url))
         raise e
     # synchronize is needed here to prevent a possible timeout after calling init_process_group
