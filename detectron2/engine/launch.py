@@ -64,6 +64,7 @@ def _distributed_worker(
     #logger.info("DEBUG local_rank",local_rank)
     assert torch.cuda.is_available(), "cuda is not available. Please check your installation."
     global_rank = machine_rank * num_gpus_per_machine + local_rank
+    print("DEBUG global_rank", global_rank)
     try:
         dist.init_process_group(
             backend="NCCL", init_method=dist_url, world_size=world_size, rank=global_rank
