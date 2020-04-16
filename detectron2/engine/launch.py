@@ -53,6 +53,7 @@ def launch(main_func, num_gpus_per_machine, num_machines=1, machine_rank=0, dist
             daemon=False,
         )
     else:
+        print("DEBUG: inside world_size=1 branch")
         main_func(*args)
 
 
