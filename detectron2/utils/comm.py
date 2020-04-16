@@ -23,6 +23,7 @@ def get_world_size() -> int:
         return 1
     if not dist.is_initialized():
         return 1
+    print("DEBUG: dist.get_world_size(): ", dist.get_world_size())
     return dist.get_world_size()
 
 
@@ -57,6 +58,7 @@ def get_local_size() -> int:
         return 1
     if not dist.is_initialized():
         return 1
+    print("DEBUG: dist.get_world_size(group=_LOCAL_PROCESS_GROUP): ", dist.get_world_size(group=_LOCAL_PROCESS_GROUP))
     return dist.get_world_size(group=_LOCAL_PROCESS_GROUP)
 
 
